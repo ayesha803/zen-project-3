@@ -9,6 +9,12 @@ pipeline {
 
     stages {
 
+        stage('Debug') {
+    steps {
+        echo "The current branch is: ${env.GIT_BRANCH}"
+    }
+}
+
         stage('Build Image') {
             steps {
                 sh 'chmod +x build.sh'
