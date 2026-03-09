@@ -2,10 +2,9 @@
 
 SERVER=35.170.75.177
 
-ssh ubuntu@$SERVER << EOF
+ssh -o StrictHostKeyChecking=no ubuntu@$SERVER << EOF
 
 cd devops-build
-
 git pull
 
 docker-compose pull
