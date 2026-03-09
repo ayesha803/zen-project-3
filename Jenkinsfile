@@ -104,7 +104,7 @@ ssh -o StrictHostKeyChecking=no ubuntu@$SERVER "
 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 docker pull $PROD_REPO:latest
 docker rm -f react-prod-container || true
-docker run -d -p 80:80 --name react-prod-container $PROD_REPO:latest
+docker run -d -p 3000:80 --name react-prod-container $PROD_REPO:latest
 "
 """
 
