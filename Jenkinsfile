@@ -63,6 +63,11 @@ pipeline {
                 expression { env.GIT_BRANCH == 'origin/main' } 
             }
             steps {
+                withCredentials([usernamePassword(
+            credentialsId: 'dockerhub-creds',
+            usernameVariable: 'DOCKER_USER',
+            passwordVariable: 'DOCKER_PASS'
+        )]) {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@$APP_SERVER '
@@ -73,6 +78,7 @@ pipeline {
                     '
                     '''
                 }
+            }
             }
         }
 
