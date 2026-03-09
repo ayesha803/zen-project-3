@@ -25,12 +25,13 @@ stage ('Push Dev Image'){
 when {
                 branch 'dev'
             }
- withCredentials([usernamePassword(
+
+            steps {
+             withCredentials([usernamePassword(
             credentialsId: 'dockerhub-creds',
             usernameVariable: 'DOCKER_USER',
             passwordVariable: 'DOCKER_PASS'
         )])
-            steps {
                 sh '''
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker tag react-devops-app $DEV_REPO:latest
@@ -45,12 +46,13 @@ stage('Push Prod Image') {
             when {
                 branch 'main'
             }
- withCredentials([usernamePassword(
+ 
+            steps {
+             withCredentials([usernamePassword(
             credentialsId: 'dockerhub-creds',
             usernameVariable: 'DOCKER_USER',
             passwordVariable: 'DOCKER_PASS'
         )])
-            steps {
                 sh '''
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker tag react-devops-app $PROD_REPO:latest
@@ -61,7 +63,7 @@ stage('Push Prod Image') {
         }
 
 
-stage('Deploy') {
+stage('Dev Deploy') {
   when {
                 branch 'dev'
             }
@@ -76,7 +78,7 @@ stage('Deploy') {
                 ssh ubuntu@$SERVER << EOF
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker pull  $DEV_REPO:latest
-                docker rm -f react-container || true
+                docker rm -f react-dev-container || true
                 docker run -d -p 80:80 --name react-dev-container  $DEV_REPO:latest
                 EOF
                 '''
@@ -85,7 +87,7 @@ stage('Deploy') {
     }
 }
 
- stage('Deploy') {
+ stage('prod Deploy') {
    when {
                 branch 'main'
             }
@@ -100,7 +102,7 @@ stage('Deploy') {
                 ssh ubuntu@$SERVER << EOF
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker pull  $PROD_REPO:latest
-                docker rm -f react-container || true
+                docker rm -f react-prod-container || true
                 docker run -d -p 80:80 --name react-prod-container $PROD_REPO:latest
                 EOF
                 '''
