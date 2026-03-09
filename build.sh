@@ -3,6 +3,7 @@
 IMAGE=react-devops-app
 DEV_REPO=ayeshadockerhub/react-dev-repo
 PROD_REPO=ayeshadockerhub/react-prod-repo
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 
 docker build -t $IMAGE .
 
