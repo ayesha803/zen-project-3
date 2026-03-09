@@ -87,7 +87,7 @@ stage('Dev Deploy') {
     }
 }
 
- stage('prod Deploy') {
+ stage('Prod Deploy') {
    when {
                 branch 'main'
             }
