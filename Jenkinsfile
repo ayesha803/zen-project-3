@@ -5,8 +5,7 @@ environment {
  DEV_REPO = "ayeshadockerhub/react-dev-repo"
  PROD_REPO = "ayeshadockerhub/react-prod-repo"
  IMAGE     = "react-devops-app"
- SERVER    = "35.170.75.177"
- 
+ SERVER    = "35.170.75.177" 
 }
 
 stages {
