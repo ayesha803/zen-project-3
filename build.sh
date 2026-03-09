@@ -1,18 +1,12 @@
 #!/bin/bash
 
-IMAGE=react-devops-app
-DEV_REPO=ayeshadockerhub/react-dev-repo
-PROD_REPO=ayeshadockerhub/react-prod-repo
-BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+set -e
 
-docker build -t $IMAGE .
+IMAGE_NAME="react-dev-repo"
+TAG="latest"
 
-if [ "$BRANCH_NAME" == "dev" ]; then
-    docker tag $IMAGE $DEV_REPO:latest
-    docker push $DEV_REPO:latest
-fi
+echo "Starting Docker build..."
 
-if [ "$BRANCH_NAME" == "main" ]; then
-    docker tag $IMAGE $PROD_REPO:latest
-    docker push $PROD_REPO:latest
-fi
+docker build -t ${IMAGE_NAME}:${TAG} .
+
+echo "Docker image built successfully: ${IMAGE_NAME}:${TAG}"
