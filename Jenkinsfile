@@ -2,21 +2,16 @@ pipeline {
     agent any
 
     environment {
-        DEV_REPO = "dockerhubusername/dev"
-        PROD_REPO = "dockerhubusername/prod"
+        DEV_REPO = "ayeshadockerhub/react-dev-repo"
+        PROD_REPO = "dockerhubusername/react-prod-repo"
     }
 
     stages {
 
-        stage('Clone Repo') {
-            steps {
-                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/username/devops-build.git'
-            }
-        }
-
         stage('Build Image') {
             steps {
-                sh 'docker build -t app-image .'
+                sh 'chmod +x build.sh'
+                sh './build.sh'
             }
         }
 
@@ -46,9 +41,10 @@ pipeline {
 
         stage('Deploy') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
+                sh 'chmod +x deploy.sh'
                 sh './deploy.sh'
             }
         }
