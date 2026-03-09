@@ -4,6 +4,7 @@ pipeline {
     environment {
         DEV_REPO = "ayeshadockerhub/react-dev-repo"
         PROD_REPO = "ayeshadockerhub/react-prod-repo"
+        APP_SERVER = "ec2-user@YOUR_APP_SERVER_IP"
     }
 
     stages {
@@ -47,11 +48,18 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            when { branch 'main' }
+        stage('Deploy to App Server') {
+            when { branch 'master' }
             steps {
-                sh 'chmod +x deploy.sh'
-                sh './deploy.sh'
+                sshagent(['ec2-ssh-key']) {
+                    sh '''
+                    ssh -o StrictHostKeyChecking=no $APP_SERVER '
+                    cd /home/ec2-user/app &&
+                    chmod +x deploy.sh &&
+                    ./deploy.sh
+                    '
+                    '''
+                }
             }
         }
 
