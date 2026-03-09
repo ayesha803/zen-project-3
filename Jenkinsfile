@@ -9,6 +9,7 @@ environment {
 }
 
 stages {
+ 
 stage ('Build Docker image'){
 
 steps{
