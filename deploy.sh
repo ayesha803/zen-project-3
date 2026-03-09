@@ -1,19 +1,14 @@
 #!/bin/bash
 
-SERVER=35.170.75.177
-REPO=https://github.com/ayesha803/zen-project-3.git
-DIR=zen-project-3
+set -e
 
-ssh -o StrictHostKeyChecking=no ubuntu@$SERVER << EOF
+echo "Stopping existing containers..."
+docker-compose down
 
-if [ ! -d "$DIR" ]; then
-    git clone $REPO
-fi
-
-cd $DIR
-git pull
-
+echo "Pulling latest image from Docker Hub..."
 docker-compose pull
+
+echo "Starting containers with docker-compose..."
 docker-compose up -d
 
-EOF
+echo "Deployment completed successfully."
