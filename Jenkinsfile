@@ -4,6 +4,8 @@ agent any
 environment {
  DEV_REPO = "ayeshadockerhub/react-dev-repo"
  PROD_REPO = "ayeshadockerhub/react-prod-repo"
+ IMAGE     = "react-devops-app"
+ SERVER    = "35.170.75.177"
  
 }
 
@@ -71,7 +73,7 @@ stage('Deploy') {
                 passwordVariable: 'DOCKER_PASS'
             )]) {
                 sh '''
-                ssh ubuntu@APP_SERVER_IP << EOF
+                ssh ubuntu@$SERVER << EOF
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker pull  $DEV_REPO:latest
                 docker rm -f react-container || true
@@ -95,7 +97,7 @@ stage('Deploy') {
                 passwordVariable: 'DOCKER_PASS'
             )]) {
                 sh '''
-                ssh ubuntu@APP_SERVER_IP << EOF
+                ssh ubuntu@$SERVER << EOF
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker pull  $PROD_REPO:latest
                 docker rm -f react-container || true
