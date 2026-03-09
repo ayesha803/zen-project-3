@@ -4,7 +4,7 @@ pipeline {
     environment {
         DEV_REPO = "ayeshadockerhub/react-dev-repo"
         PROD_REPO = "ayeshadockerhub/react-prod-repo"
-        APP_SERVER = "ec2-user@YOUR_APP_SERVER_IP"
+        APP_SERVER = "100.31.149.105"
     }
 
     stages {
