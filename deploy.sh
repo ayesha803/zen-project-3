@@ -1,8 +1,8 @@
 #!/bin/bash
 
 SERVER=35.170.75.177
-REPO=https://github.com/sriram-R-krishnan/devops-build.git
-DIR=devops-build
+REPO=https://github.com/ayesha803/zen-project-3.git
+DIR=zen-project-3
 
 ssh -o StrictHostKeyChecking=no ubuntu@$SERVER << EOF
 
