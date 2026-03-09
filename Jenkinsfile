@@ -63,15 +63,10 @@ pipeline {
                 expression { env.GIT_BRANCH == 'origin/main' } 
             }
             steps {
-                withCredentials([usernamePassword(
-            credentialsId: 'dockerhub-creds',
-            usernameVariable: 'DOCKER_USER',
-            passwordVariable: 'DOCKER_PASS'
-        )]) {
+            
                 sshagent(['ec2-ssh-key']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@$APP_SERVER '
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                     git clone https://github.com/ayesha803/zen-project-3.git
                     cd /home/ubuntu/zen-project-3 &&
                     chmod +x deploy.sh &&
@@ -79,7 +74,7 @@ pipeline {
                     '
                     '''
                 }
-            }
+            
             }
         }
 
