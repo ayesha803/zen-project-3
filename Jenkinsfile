@@ -11,7 +11,6 @@ environment {
 stages {
  
 stage ('Build Docker image'){
-
 steps{
 
 sh 'docker build -t react-devops-app .'
