@@ -76,7 +76,7 @@ stage('Dev Deploy') {
                 passwordVariable: 'DOCKER_PASS'
             )]) {
                 sh '''
-                ssh ubuntu@$SERVER << EOF
+                ssh -o  StrictHostKeyChecking=no ubuntu@$SERVER << EOF
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker pull  $DEV_REPO:latest
                 docker rm -f react-dev-container || true
@@ -100,7 +100,7 @@ stage('Dev Deploy') {
                 passwordVariable: 'DOCKER_PASS'
             )]) {
                 sh '''
-                ssh ubuntu@$SERVER << EOF
+                ssh -o  StrictHostKeyChecking=no ubuntu@$SERVER << EOF
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker pull  $PROD_REPO:latest
                 docker rm -f react-prod-container || true
