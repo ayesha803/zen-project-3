@@ -12,10 +12,12 @@ sh './build.sh'
 }
 
 stage('Deploy') {
-steps {
-sh 'chmod +x deploy.sh'
-sh './deploy.sh'
-}
+    steps {
+        sshagent(['app-server-creds']) {
+            sh 'chmod +x deploy.sh'
+            sh './deploy.sh'
+        }
+    }
 }
 
 }
