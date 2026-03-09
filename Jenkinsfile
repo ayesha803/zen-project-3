@@ -71,8 +71,7 @@ pipeline {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@$APP_SERVER '
-                    export DOCKER_USER=$DOCKER_USER
-                    export DOCKER_PASS=$DOCKER_PASS
+                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                     git clone https://github.com/ayesha803/zen-project-3.git
                     cd /home/ubuntu/zen-project-3 &&
                     chmod +x deploy.sh &&
