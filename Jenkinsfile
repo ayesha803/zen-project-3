@@ -54,7 +54,7 @@ pipeline {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $APP_SERVER '
-                    cd /home/ec2-user/app &&
+                    cd /home/ubuntu/app &&
                     chmod +x deploy.sh &&
                     ./deploy.sh
                     '
