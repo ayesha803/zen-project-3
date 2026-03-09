@@ -75,14 +75,14 @@ stage('Dev Deploy') {
                 usernameVariable: 'DOCKER_USER',
                 passwordVariable: 'DOCKER_PASS'
             )]) {
-                sh '''
-                ssh -o  StrictHostKeyChecking=no ubuntu@$SERVER << EOF
-                echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                docker pull  $DEV_REPO:latest
-                docker rm -f react-dev-container || true
-                docker run -d -p 80:80 --name react-dev-container  $DEV_REPO:latest
-                EOF
-                '''
+               sh """
+ssh -o StrictHostKeyChecking=no ubuntu@$SERVER "
+echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+docker pull $DEV_REPO:latest
+docker rm -f react-dev-container || true
+docker run -d -p 80:80 --name react-dev-container $DEV_REPO:latest
+"
+"""
             }
         }
     }
@@ -99,14 +99,15 @@ stage('Dev Deploy') {
                 usernameVariable: 'DOCKER_USER',
                 passwordVariable: 'DOCKER_PASS'
             )]) {
-                sh '''
-                ssh -o  StrictHostKeyChecking=no ubuntu@$SERVER << EOF
-                echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                docker pull  $PROD_REPO:latest
-                docker rm -f react-prod-container || true
-                docker run -d -p 80:80 --name react-prod-container $PROD_REPO:latest
-                EOF
-                '''
+              sh """
+ssh -o StrictHostKeyChecking=no ubuntu@$SERVER "
+echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+docker pull $PROD_REPO:latest
+docker rm -f react-prod-container || true
+docker run -d -p 80:80 --name react-prod-container $PROD_REPO:latest
+"
+"""
+
             }
         }
     }
