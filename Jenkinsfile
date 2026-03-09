@@ -35,7 +35,9 @@ pipeline {
         }
 
         stage('Push to Dev Repo') {
-            when { expression { env.BRANCH_NAME == 'dev' } }
+            when { 
+                expression { env.GIT_BRANCH == 'origin/dev' } 
+            }
             steps {
                 sh '''
                 docker tag app-image:latest $DEV_REPO:latest
@@ -45,7 +47,9 @@ pipeline {
         }
 
         stage('Push to Prod Repo') {
-            when { expression { env.BRANCH_NAME == 'main' } }
+            when { 
+                expression { env.GIT_BRANCH == 'origin/main' } 
+            }
             steps {
                 sh '''
                 docker tag app-image:latest $PROD_REPO:latest
