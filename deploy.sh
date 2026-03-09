@@ -1,10 +1,14 @@
 #!/bin/bash
 
-CONTAINER_NAME=react-container
-IMAGE_NAME=ecommerce-app-react
+SERVER=35.170.75.177
 
-docker rm -f $CONTAINER_NAME || true
+ssh ubuntu@$SERVER << EOF
 
-docker run -d -p 3000:80 --name $CONTAINER_NAME $IMAGE_NAME
+cd devops-build
 
+git pull
 
+docker-compose pull
+docker-compose up -d
+
+EOF
