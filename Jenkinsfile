@@ -54,7 +54,8 @@ pipeline {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no $APP_SERVER '
-                    cd /home/ubuntu/app &&
+                    git clone https://github.com/ayesha803/zen-project-3.git
+                    cd /home/ubuntu/zen-project-3 &&
                     chmod +x deploy.sh &&
                     ./deploy.sh
                     '
