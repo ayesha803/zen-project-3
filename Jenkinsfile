@@ -30,13 +30,14 @@ when {
             credentialsId: 'dockerhub-creds',
             usernameVariable: 'DOCKER_USER',
             passwordVariable: 'DOCKER_PASS'
-        )])
+        )]) {
                 sh '''
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker tag react-devops-app $DEV_REPO:latest
                 docker push $DEV_REPO:latest
                 docker logout
                 '''
+            }
             }
 
 }
@@ -51,13 +52,14 @@ stage('Push Prod Image') {
             credentialsId: 'dockerhub-creds',
             usernameVariable: 'DOCKER_USER',
             passwordVariable: 'DOCKER_PASS'
-        )])
+        )]) {
                 sh '''
                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                 docker tag react-devops-app $PROD_REPO:latest
                 docker push $PROD_REPO:latest
                 docker logout
                 '''
+            }
             }
         }
 
