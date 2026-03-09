@@ -69,7 +69,7 @@ stage('Dev Deploy') {
                 branch 'dev'
             }
     steps {
-        sshagent(['ssh-agent']) {
+        sshagent(['app-server-creds']) {
             withCredentials([usernamePassword(
                 credentialsId: 'dockerhub-creds',
                 usernameVariable: 'DOCKER_USER',
@@ -93,7 +93,7 @@ stage('Dev Deploy') {
                 branch 'main'
             }
     steps {
-        sshagent(['ssh-agent']) {
+        sshagent(['app-server-creds']) {
             withCredentials([usernamePassword(
                 credentialsId: 'dockerhub-creds',
                 usernameVariable: 'DOCKER_USER',
