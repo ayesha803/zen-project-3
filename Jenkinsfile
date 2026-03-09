@@ -59,7 +59,9 @@ pipeline {
         }
 
         stage('Deploy to App Server') {
-            when { branch 'master' }
+           when { 
+                expression { env.GIT_BRANCH == 'origin/main' } 
+            }
             steps {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
