@@ -1,12 +1,17 @@
 #!/bin/bash
 
-IMAGE_NAME=ecommerce-app-react
+IMAGE=react-devops-app
+DEV_REPO=ayeshadockerhub/react-dev-repo
+PROD_REPO=ayeshadockerhub/react-prod-repo
 
-#build image
+docker build -t $IMAGE .
 
-echo "building docker image"
+if [ "$BRANCH_NAME" == "dev" ]; then
+    docker tag $IMAGE $DEV_REPO:latest
+    docker push $DEV_REPO:latest
+fi
 
-docker build -t $IMAGE_NAME .
-
-echo "Build completed ....."
-
+if [ "$BRANCH_NAME" == "main" ]; then
+    docker tag $IMAGE $PROD_REPO:latest
+    docker push $PROD_REPO:latest
+fi
