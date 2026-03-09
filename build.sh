@@ -2,7 +2,7 @@
 
 set -e
 
-IMAGE_NAME="react-dev-repo"
+IMAGE_NAME="app-image"
 TAG="latest"
 
 echo "Starting Docker build..."
