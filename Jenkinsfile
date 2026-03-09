@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DEV_REPO = "ayeshadockerhub/react-dev-repo"
-        PROD_REPO = "dockerhubusername/react-prod-repo"
+        PROD_REPO = "ayeshadockerhub/react-prod-repo"
     }
 
     stages {
@@ -15,34 +15,40 @@ pipeline {
             }
         }
 
-        stage('Push to Dev Repo') {
-            when {
-                branch 'dev'
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                }
             }
+        }
+
+        stage('Push to Dev Repo') {
+            when { branch 'dev' }
             steps {
                 sh '''
-                docker tag app-image $DEV_REPO:latest
+                docker tag app-image:latest $DEV_REPO:latest
                 docker push $DEV_REPO:latest
                 '''
             }
         }
 
         stage('Push to Prod Repo') {
-            when {
-                branch 'master'
-            }
+            when { branch 'master' }
             steps {
                 sh '''
-                docker tag app-image $PROD_REPO:latest
+                docker tag app-image:latest $PROD_REPO:latest
                 docker push $PROD_REPO:latest
                 '''
             }
         }
 
         stage('Deploy') {
-            when {
-                branch 'main'
-            }
+            when { branch 'main' }
             steps {
                 sh 'chmod +x deploy.sh'
                 sh './deploy.sh'
